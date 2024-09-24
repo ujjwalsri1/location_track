@@ -47,7 +47,7 @@
 
         // Declare variables for marker, circle, and polyline
         let marker, circle, polyline, route = [], zoomed = false;
-
+        
         // Geolocation options
         const options = {
             enableHighAccuracy: true, 
@@ -94,6 +94,24 @@
 
             // Update map view to the new position
             map.setView([lat, lng]);
+            console.log([lat, lng]);
+            const data = { lat, lng };
+      
+      // Send data to the server using a POST request
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert('Data submitted successfully: ' + JSON.stringify(result));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
 
         function error(err) {
